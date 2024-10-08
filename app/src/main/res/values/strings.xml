@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Calculationing</string>
-    <string name="CnvrtHntInt">Input Value (0-255)</string>
+    <string name="CnvrtHntInt">Input Value (0–255)</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="IPtoBinaryText">IP Address to Binary</string>
+
+    <string-array name="view_options">
+        <item>Main View</item>
+        <item>IP Information</item>
+        <item>Subnet Masking</item>
+    </string-array>
 </resources>
