@@ -6,25 +6,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.view.KeyEvent
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.FrameLayout
-import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
-
-    private lateinit var viewContainer: FrameLayout
-    private lateinit var viewSpinner: Spinner
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -68,53 +57,19 @@ class MainActivity : AppCompatActivity() {
                     binaryValue3,
                     binaryValue4
                 )
-                textBinaryValue.text = toBeTexted
+                val netClass = addressClass(address1)
+                textBinaryValue.text = toBeTexted +
+                        "\n Subnet Mask: .0" +
+                        "\n Host Address: $address1.$address2.$address3.$address4" +
+                        "\n Broadcast Address: $address1.$address2.$address3.255 " +
+                        "\n Network Class: $netClass" +
+                        "\n Network Address: $address1.$address2.$address3.0"
             } else {
                 textBinaryValue.text = "Value can't be higher than 255"
             }
 
         }
-
-        viewSpinner = findViewById(R.id.viewSwitcher)
-        viewContainer = findViewById(R.id.pageOne)
-
-        // Setting up the Spinner
-        val adapter = ArrayAdapter.createFromResource(
-            this,
-            R.array.view_options, // Define this in res/values/strings.xml
-            android.R.layout.simple_spinner_item
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        viewSpinner.adapter = adapter
-
-        // Load the initial view
-        loadView(R.layout.activity_main)
-
-
-        viewSpinner.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener {
-             override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                when (position) {
-                    0 -> loadView(R.layout.activity_main) // First item selected
-                    1 -> loadView(R.layout.activity_ip_information) // Second item selected
-                    2 -> loadView(R.layout.activity_subnet_masking) // Third item selected
-                }
-            }
-            override fun onNothingSelected(parent: AdapterView<*>) {
-            }
-        }
     }
-    fun loadView(layoutId: Int) {
-        // Remove all existing views and load the selected layout
-        viewContainer.removeAllViews()
-        val inflater = LayoutInflater.from(this)
-        inflater.inflate(layoutId, viewContainer, true)
-    }
-
 }
 
 fun validate(value: Int?): Boolean {
@@ -148,3 +103,32 @@ fun setEditorActionListener(currentEditText: EditText, nextEditText: EditText) {
         }
     }
 }
+
+fun addressClass(ip: Int?): String {
+    var addclass = ""
+    if (ip != null) {
+        addclass = when (ip) {
+            in 0..127 -> {
+                "A"
+            }
+            in 128..191 -> {
+                "B"
+            }
+            in 192..223 -> {
+                "C"
+            }
+            in 224..239 -> {
+                "D"
+            }
+            in 240..255 -> {
+                "E"
+            }
+            else -> {
+                "unclassified"
+            }
+        }
+    }
+    return addclass
+}
+
+
