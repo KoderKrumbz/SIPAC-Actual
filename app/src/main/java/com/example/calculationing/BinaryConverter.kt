@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.view.KeyEvent
+import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         val editTextBinaryConversion4 = findViewById<EditText>(R.id.binaryConversion4)
         val editTextPrefixLength = findViewById<EditText>(R.id.prefixLength)
         val buttonConv = findViewById<Button>(R.id.buttonConvert)
+        val buttonClear = findViewById<Button>(R.id.buttonClear)
         val textBinaryValue = findViewById<TextView>(R.id.binaryValue)
         val textBinbaryVal2 = findViewById<TextView>(R.id.NetworkDeets)
 
@@ -73,36 +75,49 @@ class MainActivity : AppCompatActivity() {
                 val hostnum = numHosts(altpref)
                 val subMaskText = subnetMask(netClass)
                 val hostAdd = hostNotBroad(binaryValue4)
-                val wcM = wildcardMask(subMaskText)
+                val wcM = wildcardMask(netClass)
                 val maskBi = binaryMask(netClass)
-                val wildBi = binaryWild(maskBi)
+                val wildBi = binaryWild(netClass)
                 textBinaryValue.text =  "Subnet Mask: $subMaskText" +
-                        "\n Wildcard Mask: $wcM" +
-                        "\n Host Address: $address1.$address2.$address3.$hostAdd" +
-                        "\n First Host: $address1.$address2.$address3.1" +
-                        "\n Last Host: $address1.$address2.$address3.254" +
-                        "\n Network Address: $address1.$address2.$address3.0" +
-                        "\n Broadcast Address: $address1.$address2.$address3.255" +
-                        "\n Network Class: $netClass" +
-                        "\n Prefix Length: $altpref" +
-                        "\n Number of Networks: $numNet" +
-                        "\n Number of Hosts: $hostnum"
+                        "\nWildcard Mask: $wcM" +
+                        "\nHost Address: $address1.$address2.$address3.$hostAdd" +
+                        "\nFirst Host: $address1.$address2.$address3.1" +
+                        "\nLast Host: $address1.$address2.$address3.254" +
+                        "\nNetwork Address: $address1.$address2.$address3.0" +
+                        "\nBroadcast Address: $address1.$address2.$address3.255" +
+                        "\nNetwork Class: $netClass" +
+                        "\nPrefix Length: $altpref" +
+                        "\nNumber of Networks: $numNet" +
+                        "\nNumber of Hosts: $hostnum"
                 textBinbaryVal2.text =  "IP Binary Notation: $toBeTexted" +
-                        "\n Subnet Mask: $maskBi" +
-                        "\n Wildcard Mask: $wildBi"
+                        "\nSubnet Mask: $maskBi" +
+                        "\nWildcard Mask: $wildBi"
 
             } else {
                 textBinaryValue.text = "Value can't be higher than 255"
             }
+        }
+
+        buttonClear.setOnClickListener {
+            editTextPrefixLength.text.clear()
+            editTextBinaryConversion.text.clear()
+            editTextBinaryConversion2.text.clear()
+            editTextBinaryConversion3.text.clear()
+            editTextBinaryConversion4.text.clear()
+
+            textBinbaryVal2.text = ""
+            textBinaryValue.text = ""
 
         }
     }
 }
 
+//identifies whether given IP value is valid
 fun validate(value: Int?): Boolean {
     return value != null && value in 0..255
 }
 
+//turns input ip Values into binary
 fun ipConvertBinary (add1: String, add2: String, add3: String, add4: String): String {
 
     val addres1 = add1.toIntOrNull() ?: 0
@@ -118,6 +133,7 @@ fun ipConvertBinary (add1: String, add2: String, add3: String, add4: String): St
     return "$binaryAddress.$binaryAddress2.$binaryAddress3.$binaryAddress4"
 }
 
+//automatically changes input box when "Next" is clicked on the keyboard
 fun setEditorActionListener(currentEditText: EditText, nextEditText: EditText) {
     currentEditText.setOnEditorActionListener { _, actionId, event ->
         // Check if the action is the "Next" action or if Enter key was pressed
@@ -132,6 +148,7 @@ fun setEditorActionListener(currentEditText: EditText, nextEditText: EditText) {
     }
 }
 
+//identifies address class
 fun addressClass(ip: Int?): String {
     var addclass = ""
     if (ip != null) {
@@ -159,6 +176,7 @@ fun addressClass(ip: Int?): String {
     return addclass
 }
 
+//identifies subnet mask using address class
 fun subnetMask(netClass: String): String {
     return if (netClass.contains("A", ignoreCase = true)) {
         "255.000.000.000"
@@ -171,6 +189,7 @@ fun subnetMask(netClass: String): String {
     }
 }
 
+//identifies number of networks for the ip depending on the prefix length
 fun numNetworks(prefLength: String): String {
     val pL = 32 - prefLength.toInt()
     val nOn = 2.0.pow(pL)
@@ -179,6 +198,7 @@ fun numNetworks(prefLength: String): String {
     return yes
 }
 
+//identifies number of hosts for the ip depending on the prefix length
 fun numHosts(prefLength: String): String {
     val prefles = prefLength.toInt()
     val  nOh = 2.0.pow(prefles) - 2
@@ -187,8 +207,9 @@ fun numHosts(prefLength: String): String {
     return huh
 }
 
+//automatically inputs a prefix length based on the address class if there is no given prefix length
 fun ifNoPrefLeng(zeroe: String, netC: String): String {
-    return if (zeroe == "0") {
+    return if (zeroe == "") {
         when (netC) {
             "A" -> {
                 "8"
@@ -205,27 +226,29 @@ fun ifNoPrefLeng(zeroe: String, netC: String): String {
     }
 }
 
+//last usable ip if given ip is 255 what?
 fun hostNotBroad(ip: String): String{
     return if (ip == "255") {
-         "254"
+        "254"
     } else {
         ip
     }
 }
 
+//identifies wildcard mask
 fun wildcardMask(subnet: String): String{
     //val sbnet = subnet.replace(".","")
     //return sbnet.map {
     //    if (it == '0') '1' else '0'
     //}.joinToString ("")
     return when (subnet) {
-        "255.000.000.000" -> {
+        "A" -> {
             "000.255.255.255"
         }
-        "255.255.000.000" -> {
+        "B" -> {
             "000.000.255.255"
         }
-        "255.255.255.000" -> {
+        "C" -> {
             "000.000.000.255"
         }
         else -> {
@@ -234,6 +257,7 @@ fun wildcardMask(subnet: String): String{
     }
 }
 
+//converts subnet mask into binary
 fun binaryMask(classs: String): String{
     return when (classs) {
         "A" -> {
@@ -252,15 +276,16 @@ fun binaryMask(classs: String): String{
     }
 }
 
+//converts wildcard mask into binary
 fun binaryWild(classs: String): String{
     return when (classs) {
-        "11111111.00000000.00000000.00000000" -> {
+        "A" -> {
             "00000000.11111111.11111111.11111111"
         }
-        "11111111.11111111.00000000.00000000" -> {
+        "B" -> {
             "00000000.00000000.11111111.11111111"
         }
-        "11111111.11111111.11111111.00000000" -> {
+        "C" -> {
             "00000000.00000000.00000000.11111111"
         }
         else -> {
