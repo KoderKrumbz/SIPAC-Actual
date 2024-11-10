@@ -23,23 +23,38 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.14" />
 
     <Button
         android:id="@+id/buttonClear"
+=======
+        app:layout_constraintVertical_bias="0.086" />
+
+    <Button
+        android:id="@+id/buttonConvert2"
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
         android:layout_marginStart="60dp"
         android:layout_marginTop="200dp"
         android:padding="20dp"
+<<<<<<< HEAD
         android:text="Clear"
+=======
+        android:text="Convert"
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.14" />
+=======
+        app:layout_constraintVertical_bias="0.086" />
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -55,7 +70,11 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.7">
+=======
+        app:layout_constraintVertical_bias="0.8">
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
 
         <EditText
             android:id="@+id/binaryConversion"
@@ -131,7 +150,11 @@
         app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.916" />
+=======
+        app:layout_constraintVertical_bias="1.0" />
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="353dp"
@@ -165,7 +188,11 @@
             android:layout_gravity="top|center_horizontal"
             android:ellipsize="end"
             android:maxLines="6"
+<<<<<<< HEAD
             android:text="Network Details"
+=======
+            android:text="Details"
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -225,7 +252,11 @@
             android:layout_gravity="top|center_horizontal"
             android:ellipsize="end"
             android:maxLines="6"
+<<<<<<< HEAD
             android:text="Binary Details"
+=======
+            android:text="Details"
+>>>>>>> 1bbe19603ecfca3ae92f884ac41b120dc2091845
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
